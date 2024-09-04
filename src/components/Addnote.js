@@ -1,7 +1,7 @@
 import { default as React, useContext, useState } from 'react';
 import NoteContext from '../context/notes/NoteContext';
 
-const Addnote = () => {
+const Addnote = (props) => {
     const context = useContext(NoteContext);
     const { addNote } = context; //destructuring
     const [note, setNote] = useState({ title: "", description: "", tag: "default" });
@@ -11,11 +11,27 @@ const Addnote = () => {
         e.preventDefault();
 
         addNote(note.title, note.description, note.tag); // Call addNote from context
-
+        setNote({ title: "", description: "", tag: "" });
+        props.showAlert('Added Successfully', "success");
     }
+
     const onchange = (e) => {
         setNote({ ...note, [e.target.name]: e.target.value })
     }
+    // const minChar = () => {
+    //     if (note.title.length > 5 || note.description.length > 5) {
+    //         return handleSubmit();
+    //     }
+    //     else if (note.title.length < 5) {
+    //         props.showAlert('Title must be of 5 characters', "danger");
+
+    //     }
+    //     else if (note.description.length < 5) {
+    //         props.showAlert('Description must be of 5 characters', "danger");
+
+    //     }
+    //     //    || note.description.length<5
+    // }
     return (
         <div>
             <h1 className='text-center my-4'>Add a note</h1>
@@ -23,18 +39,19 @@ const Addnote = () => {
                 <form>
                     <div className="mb-3 my-3">
                         <label htmlFor="title" className="form-label">Title</label>
-                        <input type="text" className="form-control" id="title" name="title" onChange={onchange} aria-describedby="emailHelp" />
+                        <input type="text" className="form-control" value={note.title} id="title" name="title" onChange={onchange} aria-describedby="emailHelp" minLength={5} required />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="description" className="form-label">Description</label>
-                        <input type="text" className="form-control" id="description" name="description" onChange={onchange} />
+                        <input type="text" className="form-control" id="description" value={note.description} name="description" onChange={onchange} minLength={5} required />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="tag" className="form-label">Tags</label>
-                        <input type="text" className="form-control" id="tag" name="tag" onChange={onchange} />
+                        <input type="text" className="form-control" id="tag" value={note.tag} name="tag" onChange={onchange} />
                     </div>
-
-                    <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Add Note</button>
+                    {/* disabled={note.title.length<5 || note.description.length<5 } */}
+                    <button type="submit" disabled={note.title.length<5 || note.description.length<5 } className="btn " style={{ backgroundColor: 'black', color: 'white' }} onClick={handleSubmit}>Add Note</button>
+                    {/* <button type="submit" className="btn " style={{ backgroundColor: 'black', color: 'white' }} onClick={minChar}>Add Note</button> */}
                 </form>
             </div>
             <h2 className='text-center my-4'>Your note</h2>
