@@ -18,20 +18,24 @@ const Addnote = (props) => {
     const onchange = (e) => {
         setNote({ ...note, [e.target.name]: e.target.value })
     }
-    // const minChar = () => {
-    //     if (note.title.length > 5 || note.description.length > 5) {
-    //         return handleSubmit();
-    //     }
-    //     else if (note.title.length < 5) {
-    //         props.showAlert('Title must be of 5 characters', "danger");
+    const minChar = (e) => {
+        e.preventDefault();
+        if (note.title.length >= 5 && note.description.length >= 5) {
+            handleSubmit(e);
+        }
 
-    //     }
-    //     else if (note.description.length < 5) {
-    //         props.showAlert('Description must be of 5 characters', "danger");
+        else if (note.title.length < 5 & note.description.length!==0) {
+            props.showAlert('Title must be at least 5 characters long', "danger");
+        }
 
-    //     }
-    //     //    || note.description.length<5
-    // }
+        else if (note.description.length < 5 & note.title.length!==0) {
+            props.showAlert('Description must be at least 5 characters long', "danger");
+        }
+        else {
+            props.showAlert('Enter title and description', "danger");
+        }
+    };
+
     return (
         <div>
             <h1 className='text-center my-4'>Add a note</h1>
@@ -50,8 +54,8 @@ const Addnote = (props) => {
                         <input type="text" className="form-control" id="tag" value={note.tag} name="tag" onChange={onchange} />
                     </div>
                     {/* disabled={note.title.length<5 || note.description.length<5 } */}
-                    <button type="submit" disabled={note.title.length<5 || note.description.length<5 } className="btn " style={{ backgroundColor: 'black', color: 'white' }} onClick={handleSubmit}>Add Note</button>
-                    {/* <button type="submit" className="btn " style={{ backgroundColor: 'black', color: 'white' }} onClick={minChar}>Add Note</button> */}
+                    {/* <button type="submit" disabled={note.title.length<5 || note.description.length<5 } className="btn " style={{ backgroundColor: 'black', color: 'white' }} onClick={handleSubmit}>Add Note</button> */}
+                    <button type="submit" className="btn " style={{ backgroundColor: 'black', color: 'white' }} onClick={minChar}>Add Note</button>
                 </form>
             </div>
             <h2 className='text-center my-4'>Your note</h2>
