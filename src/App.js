@@ -9,6 +9,7 @@ import Navbar from './components/Navbar';
 import Signup from './components/Signup';
 import NoteState from './context/notes/NoteState';
 
+
 function App() {
   const [alert, setAlert] = useState(null);
 
